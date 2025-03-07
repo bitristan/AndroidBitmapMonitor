@@ -1,10 +1,11 @@
 plugins {
     id("com.android.library")
+    id("maven-publish")
 }
 
 android {
     namespace = "top.shixinzhang.bitmapmonitor"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
@@ -45,9 +46,14 @@ android {
     buildFeatures {
         prefab = true
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
-// dependencies 块转换
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
@@ -55,4 +61,17 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.bytedance.android:shadowhook:1.0.3")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components.getByName("release"))
+                groupId = "io.github.shixinzhang"
+                artifactId = "android-bitmap-monitor"
+                version = "1.2.0"
+            }
+        }
+    }
 }
