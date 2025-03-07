@@ -363,10 +363,6 @@ jint do_hook_bitmap(long bitmap_recycle_check_interval,
 
     int api_level = get_api_level();
 
-    if (api_level > 33) {
-        return -2;
-    }
-
     LOGI("hookBitmapNative called,  printStackThreshold: %ld, restore_image_threshold: %ld, api_level: %d",
          get_stack_threshold, restore_image_threshold, api_level);
 
